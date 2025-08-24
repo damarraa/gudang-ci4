@@ -21,3 +21,7 @@ $routes->post('incoming/process/(:num)', 'IncomingController::process/$1');
 // Outgoing Items
 $routes->get('outgoing', 'OutgoingController::index');
 $routes->post('outgoing', 'OutgoingController::create');
+// Reports
+$routes->get('reports/stock', 'ReportsController::stockReport');
+$routes->get('reports/incoming', 'ReportsController::incomingReport');
+$routes->get('reports/outgoing', 'ReportsController::outgoingReport');
