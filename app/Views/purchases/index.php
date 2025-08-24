@@ -20,8 +20,8 @@
             </div>
         <?php endif; ?>
 
-        <a href="/products/new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block">
-            + Tambah Barang
+        <a href="/purchases/new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block">
+            + Buat Transaksi Pembelian Baru
         </a>
 
         <div class="bg-white shadow-md rounded my-6 overflow-x-auto">
@@ -29,54 +29,47 @@
                 <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                     <tr>
                         <th class="py-3 px-6 text-left">No.</th>
-                        <th class="py-3 px-6 text-left">Kode</th>
-                        <th class="py-3 px-6 text-left">Nama Barang</th>
-                        <th class="py-3 px-6 text-left">Kategori</th>
-                        <th class="py-3 px-6 text-left">Satuan</th>
-                        <th class="py-3 px-6 text-left">Stok</th>
+                        <th class="py-3 px-6 text-left">Tanggal</th>
+                        <th class="py-3 px-6 text-left">Vendor</th>
+                        <th class="py-3 px-6 text-left">Pembeli</th>
+                        <th class="py-3 px-6 text-left">Status</th>
                         <th class="py-3 px-6 text-left">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm font-light">
-                    <?php if (!empty($products) && is_array($products)): ?>
+                    <?php if (!empty($purchases) && is_array($purchases)): ?>
 
                         <?php $i = (($pager->getCurrentPage() - 1) * $pager->getPerPage()) + 1; ?>
 
-                        <?php foreach ($products as $product): ?>
+                        <?php foreach ($purchases as $purchase): ?>
                             <tr class="border-b border-gray-200 hover:bg-gray-100">
                                 <td class="py-3 px-6 text-left whitespace-nowrap">
                                     <?= $i++ ?>
                                 </td>
                                 <td class="py-3 px-6 text-left">
-                                    <?= esc($product['code']) ?>
+                                    <?= esc(date('d M Y', strtotime($purchase['purchase_date']))) ?>
                                 </td>
                                 <td class="py-3 px-6 text-left">
-                                    <?= esc($product['name']) ?>
+                                    <?= esc($purchase['vendor_name']) ?>
                                 </td>
                                 <td class="py-3 px-6 text-left">
-                                    <?= esc($product['category_name']) ?>
-                                </td>
-                                <td class="py-3 px-6 text-left">
-                                    <?= esc($product['unit']) ?>
-                                </td>
-                                <td class="py-3 px-6 text-left">
-                                    <?= esc($product['stock']) ?>
+                                    <?= esc($purchase['buyer_name']) ?>
                                 </td>
                                 <td class="py-3 px-6 text-center">
-                                    <div class="flex items-center justify-center">
-                                        <a href="/products/<?= esc($product['id']) ?>/edit" class="w-8 h-8 rounded bg-blue-500 text-white flex items-center justify-center mr-2 hover:bg-blue-600" title="Edit">📝</a>
-                                        <form action="/products/<?= esc($product['id']) ?>" method="POST" class="inline w-8 h-8 rounded bg-red-500 text-white flex items-center justify-center hover:bg-red-600" onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?');">
-                                            <?= csrf_field() ?>
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" class="w-8 h-8 rounded bg-red-500 text-white flex items-center justify-center hover:bg-red-600" title="Hapus">🗑️</button>
-                                        </form>
-                                    </div>
+                                    <span class="bg-yellow-200 text-yellow-600 py-1 px-3 rounded-full text-xs">
+                                        <?= esc($purchase['status']) ?>
+                                    </span>
+                                </td>
+                                <td class="py-3 px-6 text-center">
+                                    <a href="/purchases/<?= esc($purchase['id']) ?>" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-xs">
+                                        Detail
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="3" class="py-3 px-6 text-center">Tidak ada data barang.</td>
+                            <td colspan="6" class="py-3 px-6 text-center">Belum ada transaksi pembelian.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
