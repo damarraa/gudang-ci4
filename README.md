@@ -2,7 +2,7 @@
 
 Aplikasi web untuk manajemen gudang sederhana yang dibuat menggunakan framework CodeIgniter 4. Aplikasi ini memungkinkan untuk mengelola data master (barang & kategori) serta mencatat transaksi barang masuk dan keluar yang secara otomatis memperbarui stok.
 
-Proyek ini diselesaikan sebagai bagian dari proses seleksi untuk posisi Software Engineer di PT Vadhana International.
+Proyek ini diselesaikan sebagai bagian dari proses seleksi untuk posisi Software Engineer di PT Vadhana International by E. Andhika Alfira Damara.
 
 ---
 
