@@ -43,4 +43,22 @@ class IncomingItemModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    /**
+     * Mengambil log barang masuk dengan detail lengkap
+     * dari tabel products dan purchases.
+     */
+    public function getIncomingItemsWithDetails()
+    {
+        return $this->select('
+                        incoming_items.incoming_date, 
+                        incoming_items.quantity, 
+                        products.code as product_code, 
+                        products.name as product_name,
+                        purchases.vendor_name
+                    ')
+            ->join('products', 'products.id = incoming_items.product_id', 'left')
+            ->join('purchases', 'purchases.id = incoming_items.purchase_id', 'left')
+            ->orderBy('incoming_items.incoming_date', 'DESC');
+    }
 }
