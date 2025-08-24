@@ -1,68 +1,84 @@
-# CodeIgniter 4 Application Starter
+# Take Home Test: Sistem Manajemen Gudang Sederhana
 
-## What is CodeIgniter?
+Aplikasi web untuk manajemen gudang sederhana yang dibuat menggunakan framework CodeIgniter 4. Aplikasi ini memungkinkan untuk mengelola data master (barang & kategori) serta mencatat transaksi barang masuk dan keluar yang secara otomatis memperbarui stok.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+Proyek ini diselesaikan sebagai bagian dari proses seleksi untuk posisi Software Engineer di PT Vadhana International.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+---
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Fitur Utama
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+-   ✅ **Manajemen Kategori:** CRUD untuk data kategori barang.
+-   ✅ **Manajemen Barang:** CRUD untuk data barang, lengkap dengan relasi ke tabel kategori.
+-   ✅ **Manajemen Pembelian:**
+    -   Membuat data master pembelian (Informasi Vendor, Tanggal, dll.).
+    -   Menambah, mengubah jumlah, dan menghapus beberapa item barang sekaligus dalam satu transaksi pembelian dengan metode "Update Keseluruhan" yang efisien.
+-   ✅ **Transaksi Barang Masuk:** Memproses penerimaan barang berdasarkan data pembelian. Aksi ini secara otomatis **menambah stok** barang dan mengubah status pembelian menjadi "Completed".
+-   ✅ **Transaksi Barang Keluar:** Mencatat pengeluaran barang dari gudang dengan validasi stok (stok tidak bisa minus). Aksi ini secara otomatis **mengurangi stok** barang.
+-   ✅ **Laporan:** Menampilkan tiga jenis laporan dasar dengan paginasi:
+    -   Laporan Stok Barang Terkini
+    -   Laporan Barang Masuk
+    -   Laporan Barang Keluar
+-   ✅ **Layout & Navigasi:** Semua halaman terintegrasi dalam satu layout utama dengan sidebar navigasi untuk kemudahan dan konsistensi UX.
+-   ✅ **Database Seeder:** Dilengkapi dengan data dummy yang logis untuk semua fitur, memudahkan proses pengetesan dan review.
 
-## Installation & updates
+---
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## Teknologi yang Digunakan
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+-   **Framework Backend:** CodeIgniter 4
+-   **Bahasa:** PHP 8.1+
+-   **Database:** MySQL
+-   **Styling Frontend:** TailwindCSS (via Play CDN)
+-   **Web Server Lokal:** Laragon
 
-## Setup
+---
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## Petunjuk Instalasi & Setup
 
-## Important Change with index.php
+1.  Clone repositori ini atau download ZIP dan ekstrak.
+2.  Buka terminal di direktori proyek, jalankan `composer install` untuk menginstal dependensi.
+3.  Salin file `env` dan ubah namanya menjadi `.env`.
+4.  Buka file `.env` dan sesuaikan konfigurasi database berikut:
+    ```
+    database.default.hostname = localhost
+    database.default.database = gudang_vadhana
+    database.default.username = root
+    database.default.password = 
+    ```
+5.  Buat database baru di MySQL dengan nama `gudang_vadhana` (atau sesuai konfigurasi).
+6.  Jalankan migrasi untuk membuat semua skema tabel:
+    ```bash
+    php spark migrate
+    ```
+7.  Jalankan seeder untuk mengisi database dengan data dummy yang relevan:
+    ```bash
+    php spark db:seed DatabaseSeeder
+    ```
+8.  Jalankan server pengembangan:
+    ```bash
+    php spark serve
+    ```
+9.  Aplikasi siap diakses di `http://localhost:8080`. Semua halaman dapat diakses melalui menu.
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+---
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+## Rencana Pengembangan Selanjutnya
 
-**Please** read the user guide for a better explanation of how CI4 works!
+Jika diberi waktu lebih, berikut adalah fitur-fitur yang akan menjadi prioritas selanjutnya:
 
-## Repository Management
+-   **Otentikasi & Otorisasi:** Mengimplementasikan sistem login, register, dan proteksi route menggunakan library  **Shield** untuk memastikan keamanan aplikasi.
+-   **Dashboard:** Membuat halaman utama setelah login yang menampilkan ringkasan data penting dalam bentuk kartu dan grafik (misal: total barang, transaksi hari ini, barang yang stoknya menipis).
+-   **Filter Laporan:** Menambahkan fungsionalitas filter berdasarkan rentang tanggal pada semua halaman laporan untuk analisis data yang lebih mendalam.
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+## Tantangan Selama Pengerjaan
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+Tantangan utama dalam pengerjaan tes ini adalah proses adaptasi dengan framework CodeIgniter 4, karena ini adalah pengalaman pertama saya menggunakannya. Latar belakang profesional saya selama ini lebih banyak menggunakan framework Laravel (dari versi 9 hingga versi 12 terbaru) dan ReactJS untuk frontend. Proses adaptasi terhadap arsitektur, *helper*, dan *command-line tool* (`spark`) dari CI4 menjadi tantangan, sekaligus kesempatan belajar yang sangat berharga.
 
-## Server Requirements
+Tantangan teknis yang paling signifikan muncul saat melakukan *debugging* pada *fatal error* yang menghasilkan layar putih (`200 OK`) tanpa adanya log. Sebagai pengguna baru CI4, ini cukup membingungkan.
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+**Cara Menyelesaikan:**
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+Saya mengatasinya dengan proses eliminasi yang sistematis: memverifikasi Rute, Controller, `BaseController`, hingga melakukan tes "Ground Zero" pada `public/index.php`.
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Setelah masalah berhasil diisolasi, saya mengambil keputusan untuk melakukan **refactoring** pada fitur tersebut. Saya mengubah arsitektur dari hapus item individual menjadi metode **"Update Keseluruhan"** (Delete and Re-insert) dalam satu transaksi database.
